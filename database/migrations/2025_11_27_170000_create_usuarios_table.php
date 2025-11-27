@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('telefono')->nullable();
             $table->date('fecha_nacimiento')->nullable();
             $table->string('password');
-            $table->enum('rol', ['user', 'admin'])->default('user');
+            $table->enum('rol', ['cliente', 'admin'])->default('cliente');
             $table->timestamps();
         });
     }

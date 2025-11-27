@@ -31,7 +31,7 @@
         <form action="{{ route('logout') }}" method="POST" class="w-100">
             @csrf
             <button type="submit" class="btn fw-bold w-100" style="background: #D4A5FF; color: #4B008E; border-radius: 20px; border: none;">
-                Cerrar sesión
+                Cerrar sesion
             </button>
         </form>
     </div>
@@ -41,16 +41,16 @@
 <div class="admin-content">
     <!-- HEADER CON BACK BUTTON -->
     <div class="d-flex align-items-center mb-4" style="background: #5A1E8F; padding: 15px 20px; border-radius: 12px; color: white;">
-        <a href="{{ route('admin.dashboard') }}" style="color: white; font-size: 24px; margin-right: 15px; text-decoration: none;">
-            ←
+        <a href="{{ route('admin.dashboard') }}" style="color: white; font-size: 24px; text-decoration: none;">
+            <i class="bi bi-arrow-left"></i>
         </a>
-        <h2 class="fw-bold" style="margin: 0;">Listado de productos</h2>
+        <h2 class="fw-bold text-center flex-grow-1" style="margin: 0;">Listado de productos</h2>
     </div>
 
     <!-- LISTA DE PRODUCTOS -->
     <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
         @if($productos->count() > 0)
-            @foreach($productos->take(10) as $producto)
+            @foreach($productos as $producto)
                 <div class="d-flex align-items-center mb-4 p-4" style="background: #F9F9F9; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
                     <!-- IMAGEN PRODUCTO -->
                     <div style="width: 80px; height: 80px; background: white; border-radius: 8px; margin-right: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
@@ -67,16 +67,19 @@
                         <p class="mb-0" style="color: #666; font-size: 14px;">Precio: ${{ number_format($producto->precio, 2) }}</p>
                     </div>
                     
-                    <!-- BOTÓN ELIMINAR -->
-                    <form action="{{ route('admin.productos.eliminar', $producto->id) }}" method="POST" style="margin-left: 20px;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" style="background: none; border: none; cursor: pointer; padding: 0;" onclick="return confirm('¿Desea eliminar este producto?');">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="#A635C7"/>
-                            </svg>
-                        </button>
-                    </form>
+                    <!-- BOTONES DE ACCIÓN -->
+                    <div class="d-flex align-items-center">
+                        <a href="{{ route('admin.productos.editar', $producto->id) }}" class="text-decoration-none" style="margin-right: 15px;">
+                            <i class="bi bi-pencil-fill" style="color: #5A1E8F; font-size: 20px;"></i>
+                        </a>
+                        <form action="{{ route('admin.productos.eliminar', $producto->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="background: none; border: none; cursor: pointer; padding: 0;" onclick="return confirm('¿Desea eliminar este producto?');">
+                                <i class="bi bi-trash-fill" style="color: #5A1E8F; font-size: 20px;"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             @endforeach
         @else
@@ -91,6 +94,11 @@
                 Agregar producto
             </a>
         </div>
+    </div>
+
+    <!-- PAGINACIÓN -->
+    <div class="d-flex justify-content-center mt-4">
+        {{ $productos->links('vendor.pagination.custom-purple') }}
     </div>
 
     <!-- BRAND NAME -->

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('usuario_id')->constrained('usuarios')->onDelete('cascade');
             $table->text('descripcion');
             $table->string('direccion');
+            $table->decimal('total', 10, 2);
             $table->enum('estado', ['En Progreso', 'Completado', 'Enviado'])->default('En Progreso');
             $table->timestamps();
         });

@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Limpiar tablas existentes
+        // Limpiar tablas existentes para evitar duplicados al re-sembrar
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('pedidos')->truncate();
         DB::table('usuarios')->truncate();
@@ -57,13 +57,53 @@ class DatabaseSeeder extends Seeder
             ['nombre' => 'Mini Bouquet Sorpresa', 'precio' => 15.00, 'cantidad' => 30, 'descripcion' => 'Pequeño bouquet perfecto para detalles espontáneos.', 'imagen' => 'https://res.cloudinary.com/dq22wmuwc/image/upload/v1764201816/rosas17_cvpz97.webp', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
-        // Insertar pedidos de prueba
+        // Insertar pedidos de prueba CON EL CAMPO TOTAL
         DB::table('pedidos')->insert([
-            ['usuario_id' => 1, 'descripcion' => 'Pedido de un ramo de flores', 'direccion' => '5 av norte, San Salvador San Salvador', 'estado' => 'En Progreso', 'created_at' => now(), 'updated_at' => now()],
-            ['usuario_id' => 1, 'descripcion' => 'Pedido de un ramo de rosas', 'direccion' => '5 av norte, Ciudad Delgado San Salvador', 'estado' => 'En Progreso', 'created_at' => now(), 'updated_at' => now()],
-            ['usuario_id' => 1, 'descripcion' => 'Pedido de un ramo de jorasoles', 'direccion' => '5 av norte, San Salvador San Salvador', 'estado' => 'Completado', 'created_at' => now(), 'updated_at' => now()],
-            ['usuario_id' => 1, 'descripcion' => 'Pedido de un ramo de tulipanes', 'direccion' => 'Ilopango San Salvador', 'estado' => 'En Progreso', 'created_at' => now(), 'updated_at' => now()],
-            ['usuario_id' => 1, 'descripcion' => 'Pedido de un ramo de claveles', 'direccion' => 'Soyapango San Salvador', 'estado' => 'Enviado', 'created_at' => now(), 'updated_at' => now()],
+            [
+                'usuario_id' => 1, 
+                'descripcion' => 'Pedido de un ramo de flores', 
+                'direccion' => '5 av norte, San Salvador San Salvador', 
+                'total' => 35.00, // <--- Agregado
+                'estado' => 'En Progreso', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'usuario_id' => 1, 
+                'descripcion' => 'Pedido de un ramo de rosas', 
+                'direccion' => '5 av norte, Ciudad Delgado San Salvador', 
+                'total' => 45.50, // <--- Agregado
+                'estado' => 'En Progreso', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'usuario_id' => 1, 
+                'descripcion' => 'Pedido de un ramo de jorasoles', 
+                'direccion' => '5 av norte, San Salvador San Salvador', 
+                'total' => 30.00, // <--- Agregado
+                'estado' => 'Completado', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'usuario_id' => 1, 
+                'descripcion' => 'Pedido de un ramo de tulipanes', 
+                'direccion' => 'Ilopango San Salvador', 
+                'total' => 40.00, // <--- Agregado
+                'estado' => 'En Progreso', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'usuario_id' => 1, 
+                'descripcion' => 'Pedido de un ramo de claveles', 
+                'direccion' => 'Soyapango San Salvador', 
+                'total' => 25.00, // <--- Agregado
+                'estado' => 'Enviado', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
         ]);
     }
 }

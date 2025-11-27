@@ -25,4 +25,6 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/productos/crear', [AdminController::class, 'crearProducto'])->name('admin.productos.crear');
     Route::post('/productos', [AdminController::class, 'guardarProducto'])->name('admin.productos.guardar');
     Route::delete('/productos/{producto}', [AdminController::class, 'eliminarProducto'])->name('admin.productos.eliminar');
+    Route::get('/productos/{producto}/editar', [AdminController::class, 'editarProducto'])->name('admin.productos.editar');
+    Route::put('/productos/{producto}', [AdminController::class, 'actualizarProducto'])->name('admin.productos.actualizar');
 });

@@ -41,10 +41,10 @@
 <div class="admin-content">
         <!-- HEADER CON BACK BUTTON -->
         <div class="d-flex align-items-center mb-4" style="background: #5A1E8F; padding: 15px 20px; border-radius: 12px; color: white;">
-            <a href="{{ route('admin.dashboard') }}" style="color: white; font-size: 24px; margin-right: 15px; text-decoration: none;">
-                ←
+            <a href="{{ route('admin.dashboard') }}" style="color: white; font-size: 24px; text-decoration: none;">
+                <i class="bi bi-arrow-left"></i>
             </a>
-            <h2 class="fw-bold" style="margin: 0;">Listado de Pedidos</h2>
+            <h2 class="fw-bold text-center flex-grow-1" style="margin: 0;">Listado de Pedidos</h2>
         </div>
 
         <!-- LISTA DE PEDIDOS -->
@@ -86,7 +86,7 @@
 
         <!-- PAGINACIÓN -->
         <div class="d-flex justify-content-center mt-4">
-            {{ $pedidos->links('pagination::bootstrap-5') }}
+            {{ $pedidos->links('vendor.pagination.custom-purple') }}
         </div>
 
         <!-- BRAND NAME -->
