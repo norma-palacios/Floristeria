@@ -1,0 +1,98 @@
+@extends('layouts.admin')
+
+@section('title', 'Lista de Pedidos - Admin')
+
+@section('content')
+<!-- SIDEBAR DERECHO FIJO -->
+<div class="admin-sidebar">
+    <!-- TOP SECTION -->
+    <div>
+        <!-- Home Title -->
+        <h2 class="text-white text-center fw-bold mb-4" style="font-size: 28px;">Home</h2>
+        
+        <!-- Usuario -->
+        <div class="d-flex align-items-center mb-4 p-3" style="background: rgba(255,255,255,0.1); border-radius: 10px;">
+            <img src="https://via.placeholder.com/40" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+            <span class="text-white fw-bold">{{ auth()->user()->nombre }}</span>
+        </div>
+        
+        <!-- Menu Items -->
+        <a href="{{ route('admin.pedidos') }}" class="d-block text-decoration-none text-white p-3 mb-2 fw-bold" style="border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.15); border-radius: 4px;">
+            <span>Pedidos</span>
+        </a>
+        
+        <a href="{{ route('admin.productos') }}" class="d-block text-decoration-none text-white p-3" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <span class="fw-bold">Productos</span>
+        </a>
+    </div>
+    
+    <!-- LOGOUT BUTTON -->
+    <div>
+        <form action="{{ route('logout') }}" method="POST" class="w-100">
+            @csrf
+            <button type="submit" class="btn fw-bold w-100" style="background: #D4A5FF; color: #4B008E; border-radius: 20px; border: none;">
+                Cerrar sesión
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="admin-content">
+        <!-- HEADER CON BACK BUTTON -->
+        <div class="d-flex align-items-center mb-4" style="background: #5A1E8F; padding: 15px 20px; border-radius: 12px; color: white;">
+            <a href="{{ route('admin.dashboard') }}" style="color: white; font-size: 24px; margin-right: 15px; text-decoration: none;">
+                ←
+            </a>
+            <h2 class="fw-bold" style="margin: 0;">Listado de Pedidos</h2>
+        </div>
+
+        <!-- LISTA DE PEDIDOS -->
+        <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            @if($pedidos->count() > 0)
+                @foreach($pedidos as $pedido)
+                    <div class="d-flex align-items-center mb-3 p-3" style="background: #F9F5FF; border-radius: 10px; border-left: 4px solid #A635C7;">
+                        <!-- ICONO FLOR -->
+                        <div style="width: 50px; height: 50px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 24px;">
+                            🌸
+                        </div>
+                        
+                        <!-- INFO PEDIDO -->
+                        <div class="flex-grow-1">
+                            <p class="fw-bold mb-1" style="color: #333;">Cliente: {{ $pedido->nombre_cliente }}</p>
+                            <p class="mb-1" style="color: #666; font-size: 14px;">Total: ${{ number_format($pedido->total, 2) }}</p>
+                            <p class="mb-0" style="color: #888; font-size: 12px;">ID Orden: #{{ $pedido->id }}</p>
+                        </div>
+                        
+                        <!-- ESTADO DROPDOWN -->
+                        <form action="#" method="POST" style="margin-left: 20px;">
+                            @csrf
+                            <select class="form-select" style="min-width: 140px; border: none; background: white; border-radius: 6px; padding: 8px 12px;">
+                                <option value="pendiente" @selected($pedido->estado === 'pendiente')>En Progreso</option>
+                                <option value="pagado" @selected($pedido->estado === 'pagado')>Pagado</option>
+                                <option value="entregado" @selected($pedido->estado === 'entregado')>Completado</option>
+                                <option value="enviado" @selected($pedido->estado === 'enviado')>Enviado</option>
+                                <option value="cancelado" @selected($pedido->estado === 'cancelado')>Cancelado</option>
+                            </select>
+                        </form>
+                    </div>
+                @endforeach
+            @else
+                <div class="text-center p-5" style="color: #999;">
+                    <p>No hay pedidos disponibles</p>
+                </div>
+            @endif
+        </div>
+
+        <!-- PAGINACIÓN -->
+        <div class="d-flex justify-content-center mt-4">
+            {{ $pedidos->links('pagination::bootstrap-5') }}
+        </div>
+
+        <!-- BRAND NAME -->
+        <div class="mt-5">
+            <p style="font-style: italic; color: #666; font-size: 16px;">Dinamita flowersshop</p>
+        </div>
+    </div>
+
+@endsection
