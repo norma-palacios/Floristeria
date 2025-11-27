@@ -65,16 +65,32 @@
                         </div>
                         
                         <!-- ESTADO DROPDOWN -->
-                        <form action="#" method="POST" style="margin-left: 20px;">
-                            @csrf
-                            <select class="form-select" style="min-width: 140px; border: none; background: white; border-radius: 6px; padding: 8px 12px;">
-                                <option value="pendiente" @selected($pedido->estado === 'pendiente')>En Progreso</option>
-                                <option value="pagado" @selected($pedido->estado === 'pagado')>Pagado</option>
-                                <option value="entregado" @selected($pedido->estado === 'entregado')>Completado</option>
-                                <option value="enviado" @selected($pedido->estado === 'enviado')>Enviado</option>
-                                <option value="cancelado" @selected($pedido->estado === 'cancelado')>Cancelado</option>
-                            </select>
-                        </form>
+                        <form action="{{ route('admin.pedidos.actualizar', $pedido->id) }}" method="POST" style="margin-left: 20px;">
+                        @csrf
+                        @method('PATCH') 
+                        <select name="estado" 
+                                class="form-select" 
+                                style="min-width: 140px; border: 1px solid #A635C7; background: white; border-radius: 6px; padding: 8px 12px; cursor: pointer;"
+                                onchange="this.form.submit()">
+                            
+                            <option value="pendiente" {{ $pedido->estado === 'pendiente' ? 'selected' : '' }}>
+                                En Progreso
+                            </option>
+
+                            <option value="enviado" {{ $pedido->estado === 'enviado' ? 'selected' : '' }}>
+                                Enviado
+                            </option>
+
+                            <option value="entregado" {{ $pedido->estado === 'entregado' ? 'selected' : '' }}>
+                                Completado
+                            </option>
+
+                            <option value="cancelado" {{ $pedido->estado === 'cancelado' ? 'selected' : '' }}>
+                                Cancelado
+                            </option>
+
+                        </select>
+                    </form>
                     </div>
                 @endforeach
             @else

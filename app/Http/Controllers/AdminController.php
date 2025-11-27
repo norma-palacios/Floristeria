@@ -16,11 +16,12 @@ class AdminController extends Controller
 
     public function pedidos()
     {
-        $pedidos = DB::table('pedidos')
-            ->join('usuarios', 'pedidos.usuario_id', '=', 'usuarios.id')
-            ->select('pedidos.*', 'usuarios.nombre as nombre_cliente')
-            ->paginate(5);
-        return view('admin.pedidos', compact('pedidos'));
+            $pedidos = DB::table('ordenes')
+                ->join('usuarios', 'ordenes.usuario_id', '=', 'usuarios.id')
+                ->select('ordenes.*', 'usuarios.nombre as nombre_cliente')
+                ->paginate(5);
+
+            return view('admin.ordenes', compact('pedidos'));
     }
 
     public function productos()
@@ -40,7 +41,6 @@ class AdminController extends Controller
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
             'precio' => 'required|numeric|min:0',
-            'categoria' => 'nullable|string|max:255',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -70,7 +70,6 @@ class AdminController extends Controller
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
             'precio' => 'required|numeric|min:0',
-            'categoria' => 'nullable|string|max:255',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -82,5 +81,21 @@ class AdminController extends Controller
         $producto->update($validated);
 
         return redirect()->route('admin.productos')->with('success', 'Producto actualizado correctamente');
+    }
+
+    public function actualizarEstado(Request $request, $id)
+    {
+        $request->validate([
+            'estado' => 'required|in:pendiente,pagado,enviado,entregado,cancelado' 
+        ]);
+
+        DB::table('ordenes')
+            ->where('id', $id)
+            ->update([
+                'estado' => $request->estado,
+                'updated_at' => now()
+            ]);
+
+        return back()->with('success', 'Estado del pedido actualizado correctamente.');
     }
 }

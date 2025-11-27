@@ -12,7 +12,7 @@
         
         <!-- Usuario -->
         <div class="d-flex align-items-center mb-4 p-3" style="background: rgba(255,255,255,0.1); border-radius: 10px;">
-            <img src="https://via.placeholder.com/40" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+            <img src="{{ asset('img/icon_user.png') }}" class="rounded-circle me-2" style="width: 40px; height: 40px;">
             <span class="text-white fw-bold">{{ auth()->user()->nombre }}</span>
         </div>
         

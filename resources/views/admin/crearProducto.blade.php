@@ -12,7 +12,7 @@
         
         <!-- Usuario -->
         <div class="d-flex align-items-center mb-4 p-3" style="background: rgba(255,255,255,0.1); border-radius: 10px;">
-            <img src="https://via.placeholder.com/40" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+            <img src="{{ asset('img/icon_user.png') }}" class="rounded-circle me-2" style="width: 40px; height: 40px;">
             <span class="text-white fw-bold">{{ auth()->user()->nombre }}</span>
         </div>
         
@@ -103,7 +103,7 @@
                         </div>
                     </div>
 
-                    <!-- CATEGORÍA O TIPO DE OCASIÓN -->
+                    <!-- CATEGORIA O TIPO DE OCASION -->
                     <div class="mb-4">
                         <label class="form-label fw-bold" style="color: #5A1E8F;">Categoría o tipo de ocasión</label>
                         <input type="text" name="categoria" class="form-control @error('categoria') is-invalid @enderror" placeholder="cumpleaños, boda, san valentín, aniversario, funeral, sin ocasión especial" value="{{ old('categoria', $producto->categoria ?? '') }}" style="border: 1px solid #DDD; border-radius: 6px; padding: 10px; font-size: 14px;">
@@ -112,7 +112,7 @@
                         @enderror
                     </div>
 
-                    <!-- BOTONES DE ACCIÓN -->
+                    <!-- BOTONES DE ACCION -->
                     <div class="d-flex gap-3 mt-5">
                         <button type="submit" class="btn fw-bold" style="background: #5A1E8F; color: white; padding: 12px 40px; border-radius: 6px; border: none; flex: 1;">
                             {{ isset($producto) ? 'Actualizar' : 'Añadir' }}
