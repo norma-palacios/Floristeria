@@ -3,20 +3,15 @@
 @section('title', isset($producto) ? 'Editar Producto - Admin' : 'Agregar Producto - Admin')
 
 @section('content')
-<!-- SIDEBAR DERECHO FIJO -->
 <div class="admin-sidebar">
-    <!-- TOP SECTION -->
     <div>
-        <!-- Home Title -->
         <h2 class="text-white text-center fw-bold mb-4" style="font-size: 28px;">Home</h2>
         
-        <!-- Usuario -->
         <div class="d-flex align-items-center mb-4 p-3" style="background: rgba(255,255,255,0.1); border-radius: 10px;">
             <img src="{{ asset('img/icon_user.png') }}" class="rounded-circle me-2" style="width: 40px; height: 40px;">
             <span class="text-white fw-bold">{{ auth()->user()->nombre }}</span>
         </div>
         
-        <!-- Menu Items -->
         <a href="{{ route('admin.pedidos') }}" class="d-block text-decoration-none text-white p-3 mb-2" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
             <span class="fw-bold">Pedidos</span>
         </a>
@@ -26,7 +21,6 @@
         </a>
     </div>
     
-    <!-- LOGOUT BUTTON -->
     <div>
         <form action="{{ route('logout') }}" method="POST" class="w-100">
             @csrf
@@ -37,9 +31,7 @@
     </div>
 </div>
 
-<!-- MAIN CONTENT -->
 <div class="admin-content">
-    <!-- HEADER CON BACK BUTTON -->
     <div class="d-flex align-items-center mb-4" style="background: #5A1E8F; padding: 15px 20px; border-radius: 12px; color: white;">
         <a href="{{ route('admin.productos') }}" style="color: white; font-size: 24px; text-decoration: none;">
             <i class="bi bi-arrow-left"></i>
@@ -47,7 +39,6 @@
         <h2 class="fw-bold text-center flex-grow-1" style="margin: 0;">{{ isset($producto) ? 'Editar producto' : 'Añadir producto' }}</h2>
     </div>
 
-    <!-- FORMULARIO AGREGAR/EDITAR PRODUCTO -->
     <div style="background: white; border-radius: 12px; padding: 40px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
         <form action="{{ isset($producto) ? route('admin.productos.actualizar', $producto) : route('admin.productos.guardar') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -56,12 +47,10 @@
             @endif
 
             <div class="row">
-                <!-- COLUMNA IZQUIERDA - IMAGEN -->
                 <div class="col-md-4 text-center mb-4">
                     <div style="background: #E8E8E8; border-radius: 12px; padding: 40px; min-height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
                         <img id="previewImagen" src="{{ isset($producto) && $producto->imagen ? asset($producto->imagen) : 'https://via.placeholder.com/200x250' }}" alt="Preview" style="max-width: 100%; max-height: 250px; border-radius: 8px; margin-bottom: 20px; object-fit: cover;">
                         
-                        <!-- BOTONES ACCIONES -->
                         <div class="d-flex gap-2 justify-content-center">
                             <label class="btn fw-bold" style="background: #5A1E8F; color: white; cursor: pointer; margin-bottom: 0; border-radius: 6px; padding: 8px 16px;">
                                 Subir
@@ -71,9 +60,7 @@
                     </div>
                 </div>
 
-                <!-- COLUMNA DERECHA - FORMULARIO -->
                 <div class="col-md-8">
-                    <!-- NOMBRE DEL PRODUCTO -->
                     <div class="mb-4">
                         <label class="form-label fw-bold" style="color: #5A1E8F;">Nombre del producto</label>
                         <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" placeholder="Ramo Adali" value="{{ old('nombre', $producto->nombre ?? '') }}" required style="border: 1px solid #DDD; border-radius: 6px; padding: 10px; font-size: 14px;">
@@ -82,7 +69,6 @@
                         @enderror
                     </div>
 
-                    <!-- DESCRIPCIÓN -->
                     <div class="mb-4">
                         <label class="form-label fw-bold" style="color: #5A1E8F;">Descripcion</label>
                         <textarea name="descripcion" class="form-control @error('descripcion') is-invalid @enderror" rows="4" placeholder="Hermoso Ramo floral de 5 gerberas..." required style="border: 1px solid #DDD; border-radius: 6px; padding: 10px; font-size: 14px; resize: vertical;">{{ old('descripcion', $producto->descripcion ?? '') }}</textarea>
@@ -91,7 +77,6 @@
                         @enderror
                     </div>
 
-                    <!-- PRECIO -->
                     <div class="mb-4">
                         <label class="form-label fw-bold" style="color: #5A1E8F;">Precio</label>
                         <div class="input-group">
@@ -103,7 +88,19 @@
                         </div>
                     </div>
 
-                    <!-- CATEGORIA O TIPO DE OCASION -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold" style="color: #5A1E8F;">Cantidad en Inventario</label>
+                        <div class="input-group">
+                            <span class="input-group-text" style="background: white; border: 1px solid #DDD;">#</span>
+                            <input type="number" name="cantidad" class="form-control @error('cantidad') is-invalid @enderror" placeholder="Ej: 50"  min="0" value="{{ old('cantidad', $producto->cantidad ?? 0) }}" 
+                            required 
+                            style="border: 1px solid #DDD; padding: 10px; font-size: 14px;">
+                        </div>
+                        @error('cantidad')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <div class="mb-4">
                         <label class="form-label fw-bold" style="color: #5A1E8F;">Categoría o tipo de ocasión</label>
                         <input type="text" name="categoria" class="form-control @error('categoria') is-invalid @enderror" placeholder="cumpleaños, boda, san valentín, aniversario, funeral, sin ocasión especial" value="{{ old('categoria', $producto->categoria ?? '') }}" style="border: 1px solid #DDD; border-radius: 6px; padding: 10px; font-size: 14px;">
@@ -112,7 +109,6 @@
                         @enderror
                     </div>
 
-                    <!-- BOTONES DE ACCION -->
                     <div class="d-flex gap-3 mt-5">
                         <button type="submit" class="btn fw-bold" style="background: #5A1E8F; color: white; padding: 12px 40px; border-radius: 6px; border: none; flex: 1;">
                             {{ isset($producto) ? 'Actualizar' : 'Añadir' }}
@@ -126,7 +122,6 @@
         </form>
     </div>
 
-    <!-- BRAND NAME -->
     <div class="mt-5">
         <p style="font-style: italic; color: #666; font-size: 16px;">Dinamita flowersshop</p>
     </div>
