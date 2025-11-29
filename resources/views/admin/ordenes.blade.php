@@ -22,7 +22,7 @@
     </div>
     
     <div>
-        <form action="{{ route('logout') }}" method="POST" class="w-100">
+        <form action="{{ route('logout') }}" method="GET" class="w-100">
             @csrf
             <button type="submit" class="btn fw-bold w-100" style="background: #D4A5FF; color: #4B008E; border-radius: 20px; border: none;">
                 Cerrar sesión
