@@ -8,6 +8,7 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'processLogin'])->name('login.process');
@@ -38,4 +39,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/checkout', [PagoController::class, 'index'])->name('pago.index');
     Route::post('/checkout/procesar', [PagoController::class, 'procesar'])->name('pago.procesar');
+)};
+
+// Admin Routes
+Route::middleware('auth')->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/pedidos', [AdminController::class, 'pedidos'])->name('admin.pedidos');
+    Route::get('/productos', [AdminController::class, 'productos'])->name('admin.productos');
+    Route::get('/productos/crear', [AdminController::class, 'crearProducto'])->name('admin.productos.crear');
+    Route::post('/productos', [AdminController::class, 'guardarProducto'])->name('admin.productos.guardar');
+    Route::delete('/productos/{producto}', [AdminController::class, 'eliminarProducto'])->name('admin.productos.eliminar');
+    Route::get('/productos/{producto}/editar', [AdminController::class, 'editarProducto'])->name('admin.productos.editar');
+    Route::put('/productos/{producto}', [AdminController::class, 'actualizarProducto'])->name('admin.productos.actualizar');
+    Route::patch('/pedidos/{id}/estado', [AdminController::class, 'actualizarEstado'])->name('admin.pedidos.actualizar');
 });
