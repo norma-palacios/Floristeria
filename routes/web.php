@@ -39,10 +39,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/checkout', [PagoController::class, 'index'])->name('pago.index');
     Route::post('/checkout/procesar', [PagoController::class, 'procesar'])->name('pago.procesar');
-)};
 
-// Admin Routes
-Route::middleware('auth')->prefix('admin')->group(function () {
+
+    // Rutas Perfil admin
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/pedidos', [AdminController::class, 'pedidos'])->name('admin.pedidos');
     Route::get('/productos', [AdminController::class, 'productos'])->name('admin.productos');
